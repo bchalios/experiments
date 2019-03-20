@@ -3,7 +3,7 @@ import sys
 
 from jobs import job
 
-class _Experiment:
+class Experiment:
     def __init__(self, exec_path, arguments, repetitions, res_dir, experiment_name, machine):
         self.__exec_path = exec_path
         self.__res_dir = res_dir
@@ -76,9 +76,9 @@ class _Experiment:
         self._job.set_envar('EXTRAE_DIR', tmp_dir)
         self._job.set_envar('NANOS6_EXTRAE_AS_THREADS', 1)
 
-class ExperimentClusters(_Experiment):
+class ExperimentClusters(Experiment):
     def __init__(self, exec_path, arguments, repetitions, res_dir, experiment_name, machine="mn4"):
-        _Experiment.__init__(self, exec_path, arguments, repetitions, res_dir, experiment_name, machine)
+        Experiment.__init__(self, exec_path, arguments, repetitions, res_dir, experiment_name, machine)
         self._modules_load.append('nanos6')
         self._modules_unload.append('nanos6')
         self._modules_unload.append('ompss')
@@ -114,9 +114,9 @@ class ExperimentClusters(_Experiment):
         self._job.submit_job()
         
 
-class ExperimentMPI(_Experiment):
+class ExperimentMPI(Experiment):
     def __init__(self, exec_path, arguments, repetitions, res_dir, experiment_name, machine="mn4"):
-        _Experiment.__init__(self, exec_path, arguments, repetitions, res_dir, experiment_name, machine)
+        Experiment.__init__(self, exec_path, arguments, repetitions, res_dir, experiment_name, machine)
 
     def run_experiment(self):
         self._job.set_modules(self._modules_load, self._modules_unload)
